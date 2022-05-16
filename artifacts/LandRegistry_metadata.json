@@ -1,0 +1,388 @@
+{
+	"compiler": {
+		"version": "0.8.7+commit.e28d00a7"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_newAuthority",
+						"type": "address"
+					}
+				],
+				"name": "addAuthority",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_propertyPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_propertySize",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_govtLandRegistryID",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_currentOwner",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "_state",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "_district",
+						"type": "string"
+					}
+				],
+				"name": "addProperty",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_newUser",
+						"type": "address"
+					}
+				],
+				"name": "addUser",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_propertyID",
+						"type": "uint256"
+					}
+				],
+				"name": "approveProperty",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_propertyID",
+						"type": "uint256"
+					}
+				],
+				"name": "approveTransfer",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_propertyID",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_newPrice",
+						"type": "uint256"
+					}
+				],
+				"name": "changePrice",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "contractOwner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_propertyID",
+						"type": "uint256"
+					}
+				],
+				"name": "getPropertyDetails",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "uint256",
+								"name": "propertyID",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "propertyPrice",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "propertySize",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "govtLandRegistryID",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "currentOwner",
+								"type": "address"
+							},
+							{
+								"internalType": "enum LandRegistry.RegistryStatus",
+								"name": "status",
+								"type": "uint8"
+							},
+							{
+								"internalType": "string",
+								"name": "state",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "district",
+								"type": "string"
+							}
+						],
+						"internalType": "struct LandRegistry.propertyDetails",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "propertyAddedOrNot",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "propertyCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "propertyToDetails",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "propertyID",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "propertyPrice",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "propertySize",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "govtLandRegistryID",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "currentOwner",
+						"type": "address"
+					},
+					{
+						"internalType": "enum LandRegistry.RegistryStatus",
+						"name": "status",
+						"type": "uint8"
+					},
+					{
+						"internalType": "string",
+						"name": "state",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "district",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_propertyID",
+						"type": "uint256"
+					}
+				],
+				"name": "rejectProperty",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_propertyID",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferProperty",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "transferPropertyToNewOwner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "userToLevel",
+				"outputs": [
+					{
+						"internalType": "int256",
+						"name": "",
+						"type": "int256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/LandRegistry.sol": "LandRegistry"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/LandRegistry.sol": {
+			"keccak256": "0x6010c18f9aa85752a8a46e4ac72e209ec6d95565e840b90c041fd15335d0129b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9533697110675fc1c40e0337dadd8b2530965e7e707bbd7033ab6fa0d06e6ce9",
+				"dweb:/ipfs/QmbtNQGT2363ronFbnyPFKKJ759AFBJww8sBmA1UCQ6Knr"
+			]
+		}
+	},
+	"version": 1
+}
