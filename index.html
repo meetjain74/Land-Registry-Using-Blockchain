@@ -36,8 +36,17 @@
       }
 
       .btn {
+        
         background-color: #b384fc;
       }
+
+      button {
+        display: block;
+        margin-left: auto;
+        margin-right: 0;
+      }
+
+      
     </style>
   </head>
 
@@ -47,20 +56,24 @@
         
         <header>
           <nav id="main-navbar" class="navbar navbar-default"
-          style="background-color: #1a0d2f;
-                  opacity: 0.7;
-                  text-align: center;
-                  margin: 1em;
-                  border-radius: 10rem">
-           
-            <h1 style="color: white; opacity: 1;"> Land Registry </h1>
+            style="background-color: #1a0d2f;
+                    opacity: 0.7;
+                    text-align: center;
+                    width: 100%;
+                    margin: 1em;
+                    border-radius: 10rem">
+
+            <h1 style="color: white;"> Land Registry </h1>
           </nav>
+
+          <button onClick="connectWallet()" class="btn btn-primary" style="margin:auto; display:block;">Connect Wallet</button>
         </header>
       
         <br/>
+        <p id="myAccountAddress" class="text-center"></p>
 
         <div class="col-lg-12">
-          <h1 class="text-center"><strong>Land Information</strong>
+          <h1 class="text-center"><strong>Properties Registered</strong>
           </h1>
           <div id="content" >
             <table class="table">
@@ -68,19 +81,18 @@
                 <tr>
                   <th scope="col"><h3><strong>ID</strong></h3></th>
                   <th scope="col"><h3><strong>Status</strong></h3></th>
-                  <th scope="col"><h3><strong>Value</strong></h3></th>
-                  <th scope="col"><h3><strong>Owner Account</strong></h3></th>
+                  <th scope="col"><h3><strong>Price</strong></h3></th>
+                  <th scope="col"><h3><strong>Owner Address</strong></h3></th>
                   <th scope="col"><h3><strong>Size</strong></h3></th>
                   <th scope="col"><h3><strong>State</strong></h3></th>
                   <th scope="col"><h3><strong>District</strong></h3></th>
-                  <th scope="col"><h3><strong>Survey Number</strong></h3> </th>
+                  <th scope="col"><h3><strong>Govt. ID</strong></h3> </th>
                 </tr>
               </thead>
-              <tbody id="candidatesResults">
+              <tbody id="propertyList">
               </tbody>
             </table>
         </div>
-        <p class="lead"><small>Status Meanings: 0 = Not in Record, 1 = Not Approved, 2 = Approved, 3 = Rejected</small></p>
         </div>
         </div>
         
@@ -88,13 +100,13 @@
           <div class="card">
             <div class="col-lg-12">    
                 <div class="card-body" >
-          <h2><strong>Record Manipulation</strong></h2>
+          <h2><strong>Add User and Authority </strong></h2>
           <div id="content"  style="border: 2px solid whitesmoke;   padding: 1em; border-radius: 1rem; margin: 1rem;">
-            <form onSubmit="App.addNewUser(); return false;">
+            <form onSubmit="addUser(); return false;">
               <div class="form-group">
                 <h2>Add User (Only Authorities can Access)</h2>
-                <label for="accountNumber444" style="margin-top:.5em">Enter Account Address</label>
-                <input type="text" class="form-control" id="accountNumber444" placeholder="Account Address">
+                <label style="margin-top:.5em">Enter User Address</label>
+                <input type="text" class="form-control" id="addUserAddress" placeholder="User Address" required>
               </div>
               <button type="submit" class="btn btn-primary">Add User</button>
               </form>
@@ -102,33 +114,31 @@
           </div>
 
           <div class="card-body"  style="border: 2px solid whitesmoke;   padding: 1em; padding-top:1em; border-radius: 1rem; margin: 1rem;">
-            <form onSubmit="App.addAuthority(); return false;">
+            <form onSubmit="addAuthority(); return false;">
               <div class="form-group">
                 <h2>Add Authority (Only Owner can Access)</h2>
-                <label for="accountNumber" style="margin-top:.5em">Enter Account Address</label>
-                <input type="text" class="form-control" id="accountNumber" placeholder="Account Address">
+                <label style="margin-top:.5em">Enter Account Address</label>
+                <input type="text" class="form-control" id="addAuthorityAddress" placeholder="Authority Address" required>
               </div>
               <button type="submit" class="btn btn-primary">Add Authority</button>
             </form>
           </div>
 
           <div class="card-body">
-            <form onSubmit="App.createProperty(); return false;">
+            <form onSubmit="addProperty(); return false;">
               <h2><strong>Create Property</strong></h2>
 
               <div class="form-group"  style="border: 2px solid whitesmoke;   padding: 1em; border-radius: 1rem;margin: 1rem;">
-                <label for="value3" style="margin-top:.5em"> Value of Land</label>
-                <input type="text" class="form-control" id="value3" placeholder="Value of Land">
-                <label for="address3" style="margin-top:.5em"> Owner Account Address</label>
-                <input type="text" class="form-control" id="address3" placeholder="Owner Account Address">
-                <label for="size3" style="margin-top:.5em"> Land Size</label>
-                <input type="text" class="form-control" id="size3" placeholder="Land Size">
-                <label for="state3" style="margin-top:.5em"> State</label>
-                <input type="text" class="form-control" id="state3" placeholder="State">
-                <label for="district3" style="margin-top:.5em"> District</label>
-                <input type="text" class="form-control" id="district3" placeholder="District">
-                <label for="survey3" style="margin-top:.5em"> Land Survey Number</label>
-                <input type="text" class="form-control" id="survey3" placeholder="Land Survey Number">
+                <label style="margin-top:.5em"> Enter Price of Land</label>
+                <input type="text" class="form-control" id="price" placeholder="Price of Land" required>
+                <label style="margin-top:.5em"> Enter Land Size</label>
+                <input type="text" class="form-control" id="size" placeholder="Land Size" required>
+                <label style="margin-top:.5em"> Enter State</label>
+                <input type="text" class="form-control" id="state" placeholder="State" required>
+                <label style="margin-top:.5em"> Enter District</label>
+                <input type="text" class="form-control" id="district" placeholder="District" required>
+                <label style="margin-top:.5em"> Enter Govt. Registry ID</label>
+                <input type="text" class="form-control" id="govtID" placeholder="Govt. Registry ID" required>
 
                 <button type="submit" class="btn btn-primary" style="margin-top:1em">Create</button>
               </div>
@@ -138,68 +148,78 @@
 
           <h2><strong>Change Property Details</strong></h2>
           <div class="card-body"  style="border: 2px solid whitesmoke;   padding: 1em; border-radius: 1rem;margin: 1rem;">
-            <form onSubmit="App.approveProperty(); return false;">
+            <form onSubmit="approveProperty(); return false;">
               <div class="form-group">
                 <h2>Approve Property (Only Authorities can Access)</h2>
-                <label for="propertyID5" style="margin-top:.5em" >Enter Property ID</label>
-                <input type="text" class="form-control" id="propertyID" placeholder="Property ID">
+                <label style="margin-top:.5em" >Enter Property ID</label>
+                <input type="text" class="form-control" id="approvePropertyPropertyID" placeholder="Property ID" required>
               </div>
               <button type="submit" class="btn btn-primary">Approve</button>
             </form>
           </div>
 
           <div class="card-body"  style="border: 2px solid whitesmoke;   padding: 1em; border-radius: 1rem;margin: 1rem;">
-            <form onSubmit="App.rejectProperty(); return false;">
+            <form onSubmit="rejectProperty(); return false;">
               <div class="form-group">
                 <h2>Reject Property (Only Authorities can Access)</h2>
 
-                <label for="propertyID5" style="margin-top:.5em" >Enter Property ID</label>
-                <input type="text" class="form-control" id="propertyID456" placeholder="Property ID">
+                <label style="margin-top:.5em" >Enter Property ID</label>
+                <input type="text" class="form-control" id="rejectPropertyPropertyID" placeholder="Property ID" required>
               </div>
               <button type="submit" class="btn btn-primary">Reject</button>
             </form>
           </div>
 
           <div class="card-body"  style="border: 2px solid whitesmoke;   padding: 1em; border-radius: 1rem;margin: 1rem;">
-            <form onSubmit="App.changeValue(); return false;">
+            <form onSubmit="changePrice(); return false;">
               <div class="form-group">
-                <h2>Change Value (Only Respective Property Owners)</h2>
-                <label for="propertyID5" style="margin-top:.5em" >Enter Property ID</label>
-                <input type="text" class="form-control" id="propertyID5" placeholder="Property ID">
-                <label for="value5" style="margin-top:.5em" >Enter Value</label>
-                <input type="text" class="form-control" id="value5" placeholder="Value of the property">
+                <h2>Change Price (Only Property Owner can Access)</h2>
+                <label style="margin-top:.5em" >Enter Property ID</label>
+                <input type="text" class="form-control" id="changePricePropertyID" placeholder="Property ID" required>
+                <label style="margin-top:.5em" >Enter Price</label>
+                <input type="text" class="form-control" id="changePricePrice" placeholder="Price of Land" required>
               </div>
-              <button type="submit" class="btn btn-primary">Approve</button>
+              <button type="submit" class="btn btn-primary">Update</button>
             </form>
           </div>
 
 
-          <h2><strong>Transfer Land related details</strong></h2>
+          <h2><strong>Transfer Property Details</strong></h2>
           <div class="card-body"  style="border: 2px solid whitesmoke;   padding: 1em; border-radius: 1rem;margin: 1rem;">
-            <h2>Propose Transfer (Only Respective Property Owners)</h2>
-            <form onSubmit="App.sale(); return false;">
+            <h2>Propose Transfer (Only Property Owner can Access)</h2>
+            <form onSubmit="transferProperty(); return false;">
               <div class="form-group">
 
-                <label for="propertyID68" >Enter Property ID</label>
-                <input type="text" class="form-control" id="propertyID68" placeholder="Property ID">
-                <label for="value68" style="margin-top:.5em">Enter New Owner Address</label>
-                <input type="text" class="form-control" id="value68" placeholder="New Owner Address">
+                <label>Enter Property ID</label>
+                <input type="text" class="form-control" id="transferPropertyPropertyID" placeholder="Property ID" required>
+                <label style="margin-top:.5em">Enter New Owner Address</label>
+                <input type="text" class="form-control" id="transferPropertyAddress" placeholder="New Owner Address" required>
               </div>
-              <button type="submit" class="btn btn-primary">Approve</button>
+              <button type="submit" class="btn btn-primary">Propose</button>
             </form>
           </div>
 
           <div class="card-body"  style="border: 2px solid whitesmoke;   padding: 1em; border-radius: 1rem;margin: 1rem;">
-            <form onSubmit="App.approveSale(); return false;">
+            <form onSubmit="approveTransfer(); return false;">
               <div class="form-group">
                 <h2>Approve Transfer (Only Authorities can Access)</h2>
-                <label for="propertyID578" style="margin-top:.5em">Enter Property ID</label>
-                <input type="text" class="form-control" id="propertyID578" placeholder="Property ID">
+                <label style="margin-top:.5em">Enter Property ID</label>
+                <input type="text" class="form-control" id="approveTransferPropertyID" placeholder="Property ID" required>
               </div>
               <button type="submit" class="btn btn-primary">Approve</button>
             </form>
           </div>
-            <p id="accountAddress" class="text-center"></p>
+
+          <div class="card-body"  style="border: 2px solid whitesmoke;   padding: 1em; border-radius: 1rem;margin: 1rem;">
+            <form onSubmit="rejectTransfer(); return false;">
+              <div class="form-group">
+                <h2>Reject Transfer (Only Authorities can Access)</h2>
+                <label style="margin-top:.5em">Enter Property ID</label>
+                <input type="text" class="form-control" id="rejectTransferPropertyID" placeholder="Property ID" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Reject</button>
+            </form>
+          </div>
           </div>
         </div>
         </div>
@@ -208,6 +228,9 @@
     <script src="index.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/web3.min.js"></script>
+    <script
+      src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+      type="application/javascript"
+    ></script>
   </body>
 </html>

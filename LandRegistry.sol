@@ -74,6 +74,11 @@ contract LandRegistry {
         require(userToLevel[_user] != 0, "User does not exist");
         _;
     }
+
+	modifier propertyExists (uint _propertyID) {
+		require(_propertyID != 0 && _propertyID <= propertyCount, "Property ID invalid");
+		_;
+	}
     
 
     // contract methods
@@ -86,6 +91,7 @@ contract LandRegistry {
 
     // Authority can only be added by contract owner
 	function addAuthority(address _newAuthority) public onlyOwner {
+		require(_newAuthority != contractOwner, "Cannot downgrade contract owner to authority");
 	    userToLevel[_newAuthority] = 2;
 	}
 
@@ -94,52 +100,63 @@ contract LandRegistry {
             uint _propertyPrice,
             uint _propertySize,
             uint _govtLandRegistryID,
-            address _currentOwner,
             string memory _state, 
             string memory _district
         ) 
-        public checkUserExists(_currentOwner) checkPropertyAdded(_govtLandRegistryID)
+        public checkUserExists(msg.sender) checkPropertyAdded(_govtLandRegistryID)
     {
-        require(msg.sender == _currentOwner, "Cannot add property owned by someone else");
 		propertyCount++;
-		propertyToDetails[propertyCount] = propertyDetails(propertyCount, _propertyPrice, _propertySize, _govtLandRegistryID, _currentOwner, RegistryStatus.NotApproved, _state , _district);
 		propertyAddedOrNot[_govtLandRegistryID] = true;
+		propertyToDetails[propertyCount] = propertyDetails(propertyCount, _propertyPrice, _propertySize, _govtLandRegistryID, msg.sender, RegistryStatus.NotApproved, _state , _district);
 	}
 
 	// Used to approve property registry, can only be called by user with authority rights
-	function approveProperty(uint _propertyID) public checkUserAuthority {
+	function approveProperty(uint _propertyID) public propertyExists(_propertyID) checkUserAuthority {
 		require(propertyToDetails[_propertyID].currentOwner != msg.sender, "Cannot approve your own property");
 		propertyToDetails[_propertyID].status = RegistryStatus.Approved;
 	}
 
 	// Used to reject property registry, can only be called by user with authority rights
-	function rejectProperty(uint _propertyID) public  checkUserAuthority {
+	function rejectProperty(uint _propertyID) public propertyExists(_propertyID) checkUserAuthority {
 		require(propertyToDetails[_propertyID].currentOwner != msg.sender, "Cannot reject your own property");
-		propertyToDetails[_propertyID].status = RegistryStatus.Rejected;
+		propertyDetails storage details = propertyToDetails[_propertyID];
+		propertyAddedOrNot[details.govtLandRegistryID] = false;
 	}
 
-    // Used to change property price, can only be called by property owner
-    function changePrice(uint _propertyID, uint _newPrice) public checkPropertyOwner(_propertyID) {
-        require(transferPropertyToNewOwner[_propertyID] == address(0), "Cannot change price while property transfer approval pending");
-        propertyToDetails[_propertyID].propertyPrice = _newPrice;
-    }
-
 	// Used to transfer property, can only be called by property owner
-	function transferProperty(uint _propertyID, address _newOwner) public checkPropertyOwner(_propertyID) {
+	function transferProperty(uint _propertyID, address _newOwner) public propertyExists(_propertyID) checkPropertyOwner(_propertyID) {
+		require(_newOwner != address(0), "Cannnot transfer to null address");
 		require(propertyToDetails[_propertyID].currentOwner != _newOwner, "Cannot transfer to current owner");
+		require(propertyToDetails[_propertyID].status == RegistryStatus.Approved, "Property required to be Approved before transfer");
 		require(transferPropertyToNewOwner[_propertyID] == address(0), "Cannot transfer while previous transfer approval pending");
 		transferPropertyToNewOwner[_propertyID] = _newOwner;
 	}
 
 	// Used to approve transfer property, can only be called by user with authority rights
-	function approveTransfer(uint _propertyID) public checkUserAuthority {
+	function approveTransfer(uint _propertyID) public propertyExists(_propertyID) checkUserAuthority {
+		require(propertyToDetails[_propertyID].currentOwner != msg.sender, "Cannot approve your own transfer");
+		require(transferPropertyToNewOwner[_propertyID] != msg.sender, "Cannot approve transfer to your own account");
 	    require(transferPropertyToNewOwner[_propertyID] != address(0), "Cannnot approve transfer to null address");
 	    propertyToDetails[_propertyID].currentOwner = transferPropertyToNewOwner[_propertyID];
 	    transferPropertyToNewOwner[_propertyID] = address(0);           // new owner is set to null for further transfers
 	}
 
+	// Used to reject transfer property, can only be called by user with authority rights
+	function rejectTransfer(uint _propertyID) public propertyExists(_propertyID) checkUserAuthority {
+		require(propertyToDetails[_propertyID].currentOwner != msg.sender, "Cannot reject your own transfer");
+		require(transferPropertyToNewOwner[_propertyID] != msg.sender, "Cannot reject transfer to your own account");
+	    require(transferPropertyToNewOwner[_propertyID] != address(0), "Cannnot reject transfer to null address");
+	    transferPropertyToNewOwner[_propertyID] = address(0);           // new owner is set to null for further transfers
+	}
+
+    // Used to change property price, can only be called by property owner
+    function changePrice(uint _propertyID, uint _newPrice) public propertyExists(_propertyID) checkPropertyOwner(_propertyID) {
+        require(transferPropertyToNewOwner[_propertyID] == address(0), "Cannot change price while property transfer approval pending");
+        propertyToDetails[_propertyID].propertyPrice = _newPrice;
+    }
+
 	// Used to get property details from property ID
-	function getPropertyDetails(uint _propertyID) public view returns (propertyDetails memory) {
+	function getPropertyDetails(uint _propertyID) public view propertyExists(_propertyID) returns (propertyDetails memory) {
 		return (propertyToDetails[_propertyID]);
 	}
 

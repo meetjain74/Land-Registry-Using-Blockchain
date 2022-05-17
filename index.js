@@ -1,10 +1,11 @@
-var contractAddress = "0x78BF27deFb0c147B90221566C3cfe607922F1C5C";
-var userAccountAddress = null;
-var LandRegistryContract;
+
+var contractAddress = "0x04376136c2ed79a311E6E69D0b155cB2a6efe8ab";
+var provider;
+var signer = null;
+var landRegistryContract;
 var isWeb3ProviderAvailable;
 
-var abi=
-[
+var abi = [
     {
         "inputs": [],
         "stateMutability": "nonpayable",
@@ -39,11 +40,6 @@ var abi=
                 "internalType": "uint256",
                 "name": "_govtLandRegistryID",
                 "type": "uint256"
-            },
-            {
-                "internalType": "address",
-                "name": "_currentOwner",
-                "type": "address"
             },
             {
                 "internalType": "string",
@@ -297,6 +293,19 @@ var abi=
                 "internalType": "uint256",
                 "name": "_propertyID",
                 "type": "uint256"
+            }
+        ],
+        "name": "rejectTransfer",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_propertyID",
+                "type": "uint256"
             },
             {
                 "internalType": "address",
@@ -349,47 +358,175 @@ var abi=
     }
 ];
 
-// Check every 100 ms is user account is still equal to web3.currentProvider.selectedAddress
-// If not, it reassigns user account to currently active account
-var accountInterval = setInterval(
-    function() {
-        if (userAccountAddress!=web3.currentProvider.selectedAddress) {
-            userAccountAddress = web3.currentProvider.selectedAddress;
-        }
-    },100
-);
-
-window.addEventListener('load',onLoad);
+window.addEventListener('load', onLoad);
 
 function onLoad() {
-    connectWeb3Provider();
+    provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_KEY, "rinkeby");
+    landRegistryContract = new ethers.Contract(contractAddress, abi, provider);
     getAllPropertyDetails();
 }
 
-function connectWeb3Provider() {
-    // Checks whether metamask exists or not
-    if (window.ethereum) {
-        window.web3 = new Web3(window.web3.currentProvider);
-        window.ethereum.enable();
-        isWeb3ProviderAvailable = true;
+async function connectWallet() {
 
-        LandRegistryContract = new web3.eth.contract(abi,contractAddress);
-        console.log(LandRegistryContract);
-    } 
-    else {
-        // User don't have any web3 provider
-        isWeb3ProviderAvailable = false;
-    }
+    const ethProvider = new ethers.providers.Web3Provider(window.ethereum);
+    await ethProvider.send("eth_requestAccounts", []);
+    signer = ethProvider.getSigner();
+    var address = await signer.getAddress();
+    
+    console.log("Account:", address);
+
+    var acc = document.getElementById("myAccountAddress");
+    acc.innerHTML = `Your address: `+address;
 }
 
 var getAllPropertyDetails = async() => {
-    console.log("erpq");
-    var res = await LandRegistryContract.methods.propertyCount().call(function (err,res) {
-        if(err) {
-            console.log("a"+err);
-        }
-        console.log(res);
-    });
-    console.log("qpq");
-    console.log(res);
+    
+    const propertyCount = await landRegistryContract.propertyCount();
+    console.log(propertyCount);
+
+    var propertyList = document.getElementById("propertyList");
+    propertyList.innerHTML = "";
+
+    for (var i=1; i<=propertyCount; i++) {
+        const propertyDetails = await landRegistryContract.getPropertyDetails(i);
+        console.log(propertyDetails);
+        
+        var id = propertyDetails.propertyID;
+        var status = getStatus(propertyDetails.status);
+        var price = propertyDetails.propertyPrice;
+        var owner = propertyDetails.currentOwner;
+        var size = propertyDetails.propertySize;
+        var state = propertyDetails.state;
+        var district = propertyDetails.district;
+        var govtID = propertyDetails.govtLandRegistryID;
+
+        var propertyElement = 
+            `<tr><td>` + id +
+            `</td><td>` + status +
+            `</td><td>` + price +
+            `</td><td>` + owner +
+            `</td><td>` + size +
+            `</td><td>` + state +
+            `</td><td>` + district +
+            `</td><td>` + govtID +
+            `</td></tr>`;
+
+        propertyList.innerHTML += propertyElement;
+    }
 }
+
+var addUser = async() => {
+    await connectWallet();
+    landRegistryContract = new ethers.Contract(contractAddress, abi, signer);
+
+    const addUserAddress = document.getElementById("addUserAddress").value;
+
+    await landRegistryContract.addUser(addUserAddress)
+        .then(() => {}, (error) => {
+            alert(error);
+        });
+}
+
+var addAuthority = async() => {
+    await connectWallet();
+    landRegistryContract = new ethers.Contract(contractAddress, abi, signer);
+
+    const addAuthorityAddress = document.getElementById("addAuthorityAddress").value;
+    await landRegistryContract.addAuthority(addAuthorityAddress)
+        .then(() => {}, (error) => {
+            alert(error);
+        });
+}
+
+var addProperty = async() => {
+    await connectWallet();
+    landRegistryContract = new ethers.Contract(contractAddress, abi, signer);
+
+    const price = document.getElementById("price").value;
+    const size = document.getElementById("size").value;
+    const state = document.getElementById("state").value;
+    const district = document.getElementById("district").value;
+    const govtID = document.getElementById("govtID").value;
+
+    await landRegistryContract.addProperty(price, size, govtID, state, district)
+        .then(() => {}, (error) => {
+            alert(error);
+        });
+}
+
+var approveProperty = async() => {
+    await connectWallet();
+    landRegistryContract = new ethers.Contract(contractAddress, abi, signer);
+
+    const approvePropertyPropertyID = document.getElementById("approvePropertyPropertyID").value;
+    await landRegistryContract.approveProperty(approvePropertyPropertyID)
+        .then(() => {}, (error) => {
+            alert(error);
+        });
+}
+
+var rejectProperty = async() => {
+    await connectWallet();
+    landRegistryContract = new ethers.Contract(contractAddress, abi, signer);
+
+    const rejectPropertyPropertyID = document.getElementById("rejectPropertyPropertyID").value;
+    await landRegistryContract.rejectProperty(rejectPropertyPropertyID)
+        .then(() => {}, (error) => {
+            alert(error);
+        });
+}
+
+var changePrice = async() => {
+    await connectWallet();
+    landRegistryContract = new ethers.Contract(contractAddress, abi, signer);
+
+    const changePricePropertyID = document.getElementById("changePricePropertyID").value;
+    const changePricePrice = document.getElementById("changePricePrice").value;
+    await landRegistryContract.changePrice(changePricePropertyID, changePricePrice)
+        .then(() => {}, (error) => {
+            alert(error);
+        });
+}
+
+var transferProperty = async() => {
+    await connectWallet();
+    landRegistryContract = new ethers.Contract(contractAddress, abi, signer);
+
+    const transferPropertyPropertyID = document.getElementById("transferPropertyPropertyID").value;
+    const transferPropertyAddress = document.getElementById("transferPropertyAddress").value;
+    await landRegistryContract.transferProperty(transferPropertyPropertyID, transferPropertyAddress)
+        .then(() => {}, (error) => {
+            alert(error);
+        });
+}
+
+var approveTransfer = async() => {
+    await connectWallet();
+    landRegistryContract = new ethers.Contract(contractAddress, abi, signer);
+
+    const approveTransferPropertyID = document.getElementById("approveTransferPropertyID").value;
+    await landRegistryContract.approveTransfer(approveTransferPropertyID)
+        .then(() => {}, (error) => {
+            alert(error);
+        });
+}
+
+var rejectTransfer = async() => {
+    await connectWallet();
+    landRegistryContract = new ethers.Contract(contractAddress, abi, signer);
+
+    const rejectTransferPropertyID = document.getElementById("rejectTransferPropertyID").value;
+    await landRegistryContract.rejectTransfer(rejectTransferPropertyID)
+        .then(() => {}, (error) => {
+            alert(error);
+        });
+}
+
+function getStatus(n) {
+    switch(n) {
+        case 1: return "Not Approved";
+        case 2: return "Approved";
+        case 3: return "Rejected";
+    }
+}
+
