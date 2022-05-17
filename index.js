@@ -361,7 +361,7 @@ var abi = [
 window.addEventListener('load', onLoad);
 
 function onLoad() {
-    provider = new ethers.providers.JsonRpcProvider(INFURA_KEY, "rinkeby");
+    provider = new ethers.providers.JsonRpcProvider(process.env.INFURA_KEY, "rinkeby");
     landRegistryContract = new ethers.Contract(contractAddress, abi, provider);
     getAllPropertyDetails();
 }
