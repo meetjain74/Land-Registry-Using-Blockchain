@@ -1,5 +1,5 @@
 
-var contractAddress = "0xca25a6ae48488B978Ca46BE780AF912Fe94D3Cc8";
+var contractAddress = "0x1D00cB0633CCB185643E19CF78A4D9279526cF5b";
 var provider;
 var signer = null;
 var landRegistryContract;

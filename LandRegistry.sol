@@ -126,6 +126,7 @@ contract LandRegistry {
 		require(propertyToDetails[_propertyID].currentOwner != msg.sender, "Cannot reject your own property");
 		propertyDetails storage details = propertyToDetails[_propertyID];
 		propertyAddedOrNot[details.govtLandRegistryID] = false;
+		details.status = RegistryStatus.Rejected;
 	}
 
 	// Used to transfer property, can only be called by property owner

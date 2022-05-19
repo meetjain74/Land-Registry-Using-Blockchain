@@ -389,11 +389,11 @@
 	},
 	"sources": {
 		"contracts/LandRegistry.sol": {
-			"keccak256": "0x8544f8de349a62ff963b09fbc68f3aed982eee9b81a23a8cf3a1d9a5ee4809c8",
+			"keccak256": "0xd61c730f04893a0b1570151c81e7bbdc4f7ec2fe45cbc4e850f53115fc97a8d5",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3ffb051f3c89947b586fed9ec968672b529bf870ecd41acbf0ced46dd1616485",
-				"dweb:/ipfs/QmX6ZSdjVmCTcbGtKeQw4w7phae51D42HvGDDYWiAUQoxc"
+				"bzz-raw://6d8dc4aacdfc6897aa9942bcd71422cdf98a48bb30cb164e2b15cd00d4ba4f8d",
+				"dweb:/ipfs/QmSiAmu7gJa6upX2eX6enMVyLZ8kPFBqNH3FzRN7FQSj9f"
 			]
 		}
 	},
