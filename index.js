@@ -1,5 +1,5 @@
 
-var contractAddress = "0x04376136c2ed79a311E6E69D0b155cB2a6efe8ab";
+var contractAddress = "0xca25a6ae48488B978Ca46BE780AF912Fe94D3Cc8";
 var provider;
 var signer = null;
 var landRegistryContract;
@@ -35,6 +35,11 @@ var abi = [
                 "internalType": "uint256",
                 "name": "_propertySize",
                 "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "_currentOwner",
+                "type": "address"
             },
             {
                 "internalType": "uint256",
@@ -444,11 +449,12 @@ var addProperty = async() => {
 
     const price = document.getElementById("price").value;
     const size = document.getElementById("size").value;
+    const owner = document.getElementById("owner").value;
     const state = document.getElementById("state").value;
     const district = document.getElementById("district").value;
     const govtID = document.getElementById("govtID").value;
 
-    await landRegistryContract.addProperty(price, size, govtID, state, district)
+    await landRegistryContract.addProperty(price, size, owner, govtID, state, district)
         .then(() => {}, (error) => {
             alert(error);
         });

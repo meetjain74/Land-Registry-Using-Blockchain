@@ -99,15 +99,20 @@ contract LandRegistry {
 	function addProperty(
             uint _propertyPrice,
             uint _propertySize,
+			address _currentOwner,
             uint _govtLandRegistryID,
             string memory _state, 
             string memory _district
         ) 
-        public checkUserExists(msg.sender) checkPropertyAdded(_govtLandRegistryID)
+        public checkUserExists(_currentOwner) checkUserExists(msg.sender) checkPropertyAdded(_govtLandRegistryID)
     {
+		// Authority level user can add property on anyone's behalf
+		if (msg.sender != _currentOwner) {
+			require(userToLevel[msg.sender] >=2, "Caller does not have authority rights");
+		}
 		propertyCount++;
 		propertyAddedOrNot[_govtLandRegistryID] = true;
-		propertyToDetails[propertyCount] = propertyDetails(propertyCount, _propertyPrice, _propertySize, _govtLandRegistryID, msg.sender, RegistryStatus.NotApproved, _state , _district);
+		propertyToDetails[propertyCount] = propertyDetails(propertyCount, _propertyPrice, _propertySize, _govtLandRegistryID, _currentOwner, RegistryStatus.NotApproved, _state , _district);
 	}
 
 	// Used to approve property registry, can only be called by user with authority rights

@@ -126,13 +126,15 @@
 
           <div class="card-body">
             <form onSubmit="addProperty(); return false;">
-              <h2><strong>Create Property</strong></h2>
+              <h2><strong>Create Property (Authorities and Property Owners can Access)</strong></h2>
 
               <div class="form-group"  style="border: 2px solid whitesmoke;   padding: 1em; border-radius: 1rem;margin: 1rem;">
                 <label style="margin-top:.5em"> Enter Price of Land</label>
                 <input type="text" class="form-control" id="price" placeholder="Price of Land" required>
                 <label style="margin-top:.5em"> Enter Land Size</label>
                 <input type="text" class="form-control" id="size" placeholder="Land Size" required>
+                <label style="margin-top:.5em"> Enter Land Owner</label>
+                <input type="text" class="form-control" id="owner" placeholder="Land Owner Address" required>
                 <label style="margin-top:.5em"> Enter State</label>
                 <input type="text" class="form-control" id="state" placeholder="State" required>
                 <label style="margin-top:.5em"> Enter District</label>

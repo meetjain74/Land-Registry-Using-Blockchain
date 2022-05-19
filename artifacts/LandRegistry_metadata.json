@@ -36,6 +36,11 @@
 						"type": "uint256"
 					},
 					{
+						"internalType": "address",
+						"name": "_currentOwner",
+						"type": "address"
+					},
+					{
 						"internalType": "uint256",
 						"name": "_govtLandRegistryID",
 						"type": "uint256"
@@ -384,11 +389,11 @@
 	},
 	"sources": {
 		"contracts/LandRegistry.sol": {
-			"keccak256": "0x6f0ad01bdfdbb4143f04f2cac7aaa789dcb948aa110e2a8b16abd509dc6eeecb",
+			"keccak256": "0x8544f8de349a62ff963b09fbc68f3aed982eee9b81a23a8cf3a1d9a5ee4809c8",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://75d1bc95327d5c013e1c003d1047c2cf6837dbf0137832fdfc8a6e6b2f2d4bef",
-				"dweb:/ipfs/QmSeyyWeYDswYGDjLHYyh4FPAputGcJ4WXMdmVT6H19oQT"
+				"bzz-raw://3ffb051f3c89947b586fed9ec968672b529bf870ecd41acbf0ced46dd1616485",
+				"dweb:/ipfs/QmX6ZSdjVmCTcbGtKeQw4w7phae51D42HvGDDYWiAUQoxc"
 			]
 		}
 	},
