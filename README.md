@@ -1,13 +1,24 @@
 # Land-Registry-Using-Blockchain
 
-Deployed website link => https://landregistrybfsc.netlify.app/
+## Deployment on zkEVM Polygon Testnet
+Contract owner address => 0xC4524AeED055b22AEc58a410AE3925d701CF66Af   
 
-Contract Owner Address => 0xFC2258aad94F889F4eE38b78490795FC4546914c
+Contract address => 0xde8bAc2367d7682d695BF3F95107b43170C5C51e   
 
-Contract Address => 0x1D00cB0633CCB185643E19CF78A4D9279526cF5b
+Contract => https://explorer.public.zkevm-test.net/address/0xde8bAc2367d7682d695BF3F95107b43170C5C51e/   
 
-Contract => https://rinkeby.etherscan.io/address/0x1d00cb0633ccb185643e19cf78a4d9279526cf5b
+Transaction hash for contract deployment => 0x3990c6788a9270d1b5cf801082b118732484d2f74b9ef64eea27a19f886b602b  
 
+Contract deployment on block explorer => https://explorer.public.zkevm-test.net/tx/0x3990c6788a9270d1b5cf801082b118732484d2f74b9ef64eea27a19f886b602b/   
+
+## Deployment on Rinkeby Testnet
+Deployed website link => https://landregistrybfsc.netlify.app/ (Works on Rinkeby currently)  
+
+Contract Owner Address => 0xFC2258aad94F889F4eE38b78490795FC4546914c  
+
+Contract Address => 0x1D00cB0633CCB185643E19CF78A4D9279526cF5b  
+
+Contract => https://rinkeby.etherscan.io/address/0x1d00cb0633ccb185643e19cf78a4d9279526cf5b  
 
 # Steps to run the project
 
